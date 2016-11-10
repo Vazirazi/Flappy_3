@@ -23,11 +23,17 @@ class menu(object):
         
         self.basicFont = pygame.font.SysFont(None, 30)
         
-        self.pozycja=1
-        self.pozycja2=1
+        
         self.czas3=pygame.time.get_ticks()
         self.color1=(255,255,255)
         self.color0=(0,255,255)
+        self.trudnosc = open('trudnosc.txt','r')
+        self.ustawienia_trudnosci= self.trudnosc.readline().strip('\n\r') 
+        
+        self.trudnosc.close()
+        self.pozycja=int(self.ustawienia_trudnosci)
+        
+        
         self.loop()
     def loop(self):
         
@@ -35,7 +41,7 @@ class menu(object):
         
         while self.gamestate==1:
             for event in pygame.event.get():
-                if event.type==pygame.QUIT or (event.type==pygame.KEYDOWN and event.key==pygame.K_ESCAPE):
+                if event.type==pygame.QUIT:
                     self.gamestate = 0
               
             
@@ -47,38 +53,41 @@ class menu(object):
                     self.pozycja += 1
                 self.czas3=pygame.time.get_ticks()
                 if keys[pygame.K_RETURN]:
-                    if self.pozycja == 1:
-                        exec(open('Flappy.py').read())
-                    if self.pozycja ==2:
-                        exec(open('ustawienia.py').read())
-                        
+                    if self.pozycja == 4:
+                        exec(open('menu.py').read())
+                    else:
+                        self.trudnosc = open('trudnosc.txt','w')
+                        self.trudnosc.write(str(self.pozycja)) 
+                        self.trudnosc.close()
 
             if self.pozycja == 1:
-                start = self.basicFont.render("start", 1, self.color0)
+                easy = self.basicFont.render("easy", 1, self.color0)
                 
             else:
-                start = self.basicFont.render("start", 1, self.color1)
+                easy = self.basicFont.render("easy", 1, self.color1)
             if self.pozycja == 2:
-                ustawienia=self.basicFont.render("ustawienia", 1, self.color0)
+                medium=self.basicFont.render("medium", 1, self.color0)
             else:
-                ustawienia=self.basicFont.render("ustawienia", 1, self.color1)
+                medium=self.basicFont.render("medium", 1, self.color1)
             if self.pozycja== 3:
-                rekordy=self.basicFont.render("rekordy", 1, self.color0)
+                hard=self.basicFont.render("hard", 1, self.color0)
             else:
-                rekordy=self.basicFont.render("rekordy", 1, self.color1)
+                hard=self.basicFont.render("hard", 1, self.color1)
             if self.pozycja== 4:
-                exit=self.basicFont.render("exit", 1, self.color0)
+                cofnij=self.basicFont.render("cofnij", 1, self.color0)
             else:
-                exit=self.basicFont.render("exit", 1, self.color1)
+                cofnij=self.basicFont.render("cofnij", 1, self.color1)
+                
+             
 
 
 
 
 
-            self.surface.blit(start,(250,100))
-            self.surface.blit(ustawienia,(250,150))
-            self.surface.blit(rekordy, (250,200))
-            self.surface.blit(exit,(250,250))
+            self.surface.blit(easy,(250,100))
+            self.surface.blit(medium,(250,150))
+            self.surface.blit(hard, (250,200))
+            self.surface.blit(cofnij,(250,250))
             
             pygame.display.flip() 
             

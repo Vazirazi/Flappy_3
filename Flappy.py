@@ -21,6 +21,24 @@ class IsoGame(object):
         pygame.init()       # incjalizujemy biblioteke pygame
         flag = DOUBLEBUF    # wlaczamy tryb podwojnego buforowania
         
+        
+        self.trudnosc = open('trudnosc.txt','r')
+        self.ustawienia_trudnosci= self.trudnosc.readline().strip('\n\r') 
+        self.trudnosc.close()
+        diff=int(self.ustawienia_trudnosci)
+        if diff==1:
+            self.player_x = 80   # pozycja x duszka na ekranie
+            self.player_y = 300
+            self.predkosc=2
+        if diff ==2:
+            self.player_x = 150   # pozycja x duszka na ekranie
+            self.player_y = 300
+            self.grawitacja =5
+        if diff ==3:
+            self.player_x = 180   # pozycja x duszka na ekranie
+            self.player_y = 300
+            self.grawitacja =10
+            
         # tworzymy bufor na  grafike
         self.surface = pygame.display.set_mode(screen_size,flag)
 
@@ -45,8 +63,7 @@ class IsoGame(object):
         self.counter=0
         self.player_frame = 1 # numer klatki animacji
         self.speed = 1.2     # szybkosc poruszania duszka
-        self.player_x = 200   # pozycja x duszka na ekranie
-        self.player_y = 300  # pozycja y duszka na ekranie
+        # pozycja y duszka na ekranie
         self.rura1 = pygame.image.load('resources/images/rura1.png')
         self.rura2 = pygame.image.load('resources/images/rura2.png') 
         self.h=-600
@@ -111,7 +128,7 @@ class IsoGame(object):
                     
                     
                 self.player_y+=self.grawitacja    
-                self.x=self.x-5 # ustawienie trudnosci
+                self.x=self.x-self.predkosc # ustawienie trudnosci
                 self.czas2=  pygame.time.get_ticks()
             
    
